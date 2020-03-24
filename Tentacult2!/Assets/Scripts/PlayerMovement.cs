@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
             print("clicked");
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
