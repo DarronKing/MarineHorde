@@ -1,6 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SwarmMovement : MonoBehaviour
 {
@@ -11,13 +12,13 @@ public class SwarmMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<NavMeshAgent>();
-        //target = 
+        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        target = transform.parent.gameObject.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(target);
+        agent.SetDestination(target.position);
     }
 }
