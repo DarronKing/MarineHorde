@@ -6,14 +6,14 @@ using UnityEngine.AI;
 public class SwarmMovement : MonoBehaviour
 {
 
-    public Transform target;
+    Transform target;
     NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
     {
-        agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        target = transform.parent.gameObject.transform;
+        agent = GetComponent<NavMeshAgent>();
+        target = GameObject.FindGameObjectWithTag("Target").transform;
     }
 
     // Update is called once per frame
@@ -21,4 +21,5 @@ public class SwarmMovement : MonoBehaviour
     {
         agent.SetDestination(target.position);
     }
+
 }
