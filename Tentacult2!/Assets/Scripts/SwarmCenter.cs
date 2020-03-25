@@ -13,6 +13,7 @@ public class SwarmCenter : MonoBehaviour
     Vector3 centroid = Vector3.zero;
     GameObject[] children;
     List<Animator> childrenAnimators;
+    HashSet<Collider> enemies;
     SphereCollider sphere;
     DrawCirlce circle;
     bool shooting;
@@ -30,20 +31,22 @@ public class SwarmCenter : MonoBehaviour
         {
             childrenAnimators.Add(child.GetComponent<Animator>());
         }
+        enemies = new HashSet<Collider>();
         shooting = false;
 
+
         // remove the following code 
-        number = (int)children.Length / 4;
-        circle.xradius = circle.yradius = 9 + number;
-        sphere.radius = attackRange = 10 + number;
-        circle.CreatePoints();
+        number = (int)children.Length / 4;//
+        circle.xradius = circle.yradius = 9 + number;//
+        sphere.radius = attackRange = 10 + number;//
+        circle.CreatePoints();//
     }
 
     // Update is called once per frame
     void Update()
     {
-        number = (int)children.Length / 4;
-        circle.xradius = circle.yradius = sphere.radius = attackRange = 10 + number;
+        number = (int)children.Length / 4;//
+        circle.xradius = circle.yradius = sphere.radius = attackRange = 10 + number;//
         //TODO cannot update visual circle without calling CreatePoints()
 
         CalculateCenter();
@@ -63,11 +66,20 @@ public class SwarmCenter : MonoBehaviour
         {
             anim.SetBool("Running", shooting);
         }
+        print(enemies.Count + "enemies");
     }
 
-    private void OnTriggerStay(Collider other)
+    void OnTriggerStay(Collider other)
     {
-        
+        // not working
+        print("called");
+        enemies.Add(other);
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        print("exit");
+        //enemies.Remove(other);
     }
 
     void CalculateCenter()
