@@ -18,12 +18,15 @@ public class SwarmMovement : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         target = GameObject.FindGameObjectWithTag("Target").transform;
+        attackRange = 10;
     }
 
     // Update is called once per frame
     void Update()
     {
         agent.SetDestination(target.position);
+
+        
         //if (Vector3.Distance(transform.position, lookAt.position) < attackRange)
         //{
         //    gameObject.transform.LookAt(lookAt);

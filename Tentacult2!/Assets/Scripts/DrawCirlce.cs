@@ -6,11 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class DrawCirlce : MonoBehaviour
 {
-    [Range(0, 50)]
+    
     public int segments = 50;
-    [Range(0, 10)]
     public float xradius = 5;
-    [Range(0, 10)]
     public float yradius = 5;
     LineRenderer line;
 
@@ -23,7 +21,7 @@ public class DrawCirlce : MonoBehaviour
         CreatePoints();
     }
 
-    void CreatePoints()
+    public void CreatePoints()
     {
         float x;
         float y;

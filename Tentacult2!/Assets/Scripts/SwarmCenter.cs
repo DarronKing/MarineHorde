@@ -13,7 +13,10 @@ public class SwarmCenter : MonoBehaviour
     Vector3 centroid = Vector3.zero;
     GameObject[] children;
     List<Animator> childrenAnimators;
+    SphereCollider sphere;
+    DrawCirlce circle;
     bool shooting;
+    int number;
     public Transform closestEnemy;
     
     // Start is called before the first frame update
@@ -21,16 +24,28 @@ public class SwarmCenter : MonoBehaviour
     {
         children = GameObject.FindGameObjectsWithTag("Player");
         childrenAnimators = new List<Animator>();
+        sphere = GetComponent<SphereCollider>();
+        circle = GetComponent<DrawCirlce>();
         foreach (GameObject child in children)
         {
             childrenAnimators.Add(child.GetComponent<Animator>());
         }
         shooting = false;
+
+        // remove the following code 
+        number = (int)children.Length / 4;
+        circle.xradius = circle.yradius = 9 + number;
+        sphere.radius = attackRange = 10 + number;
+        circle.CreatePoints();
     }
 
     // Update is called once per frame
     void Update()
     {
+        number = (int)children.Length / 4;
+        circle.xradius = circle.yradius = sphere.radius = attackRange = 10 + number;
+        //TODO cannot update visual circle without calling CreatePoints()
+
         CalculateCenter();
         if (Vector3.Distance(transform.position, closestEnemy.position) < attackRange)
         {
