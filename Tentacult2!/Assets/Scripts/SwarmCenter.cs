@@ -48,8 +48,10 @@ public class SwarmCenter : MonoBehaviour
         number = (int)children.Length / 4;//
         circle.xradius = circle.yradius = sphere.radius = attackRange = 10 + number;//
         //TODO cannot update visual circle without calling CreatePoints()
-
+        
         CalculateCenter();
+        closestEnemy = ClosestEnemy();
+         
         if (Vector3.Distance(transform.position, closestEnemy.position) < attackRange)
         {
             foreach (GameObject child in children)
@@ -79,7 +81,24 @@ public class SwarmCenter : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         print("exit");
-        //enemies.Remove(other);
+        enemies.Remove(other);
+    }
+
+    Transform ClosestEnemy()
+    {
+        Transform closest = null;// make this the first element of hashset.
+        //Vector3 distToClosest = Vector3.distance(closest.position, transform.position);
+        //Vector3 newDist;
+        //foreach (Collider enemy in enemies)
+        //{
+        //    newDist = Vector3.Distance(enemy.transform.position, transform.position);
+        //    if (distToClosest > newDist)
+        //    {
+        //        closest = enemy;
+        //        distToClosest = newDist;
+        //    }
+        //}
+        return closest;
     }
 
     void CalculateCenter()
