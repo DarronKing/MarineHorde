@@ -7,17 +7,10 @@ public class Bullet : MonoBehaviour
     public float force = 90;
     Rigidbody rb;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.AddForce(transform.forward * force);
         Destroy(gameObject, 10f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

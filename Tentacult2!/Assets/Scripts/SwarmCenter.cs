@@ -14,6 +14,7 @@ public class SwarmCenter : MonoBehaviour
     GameObject[] children;
     List<Animator> childrenAnimators;
     HashSet<Collider> enemies;
+    HashSet<Collider> allies;
     SphereCollider sphere;
     DrawCirlce circle;
     bool shooting;
@@ -32,6 +33,7 @@ public class SwarmCenter : MonoBehaviour
             childrenAnimators.Add(child.GetComponent<Animator>());
         }
         enemies = new HashSet<Collider>();
+        allies = new HashSet<Collider>();
         shooting = false;
 
 
@@ -51,12 +53,18 @@ public class SwarmCenter : MonoBehaviour
         
         CalculateCenter();
         closestEnemy = ClosestEnemy();
-         
-        if (Vector3.Distance(transform.position, closestEnemy.position) <= attackRange)
+        if (closestEnemy != null)
         {
             foreach (GameObject child in children)
             {
                 child.transform.LookAt(closestEnemy);
+            }
+        }
+
+        if ((Vector3.Distance(transform.position, closestEnemy.position) <= attackRange))
+        {
+            foreach (GameObject child in children)
+            {
                 if (!shooting)
                 {
                     shooting = true;
@@ -72,28 +80,47 @@ public class SwarmCenter : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        enemies.Add(other);
+        if (other.CompareTag("Enemy"))
+            enemies.Add(other);
+        if (other.CompareTag("Player"))
+            allies.Add(other);
     }
 
     void OnTriggerExit(Collider other)
     {
-        enemies.Remove(other);
+        if (other.CompareTag("Enemy"))
+            enemies.Remove(other);
+        if (other.CompareTag("Player"))
+            allies.Remove(other);
     }
 
     Transform ClosestEnemy()
     {
         Transform closest = null;// make this the first element of hashset.
-        //Vector3 distToClosest = Vector3.distance(closest.position, transform.position);
-        //Vector3 newDist;
-        //foreach (Collider enemy in enemies)
-        //{
-        //    newDist = Vector3.Distance(enemy.transform.position, transform.position);
-        //    if (distToClosest > newDist)
-        //    {
-        //        closest = enemy;
-        //        distToClosest = newDist;
-        //    }
-        //}
+        float distToClosest = 0;
+        float newDist;
+        foreach (Collider enemy in enemies)
+        {
+            if (enemy == null)
+            {
+                enemies.Remove(enemy);
+            }
+
+            if (closest != null)
+            {
+                newDist = Vector3.Distance(enemy.transform.position, transform.position);
+                if (distToClosest > newDist)
+                {
+                    closest = enemy.transform;
+                    distToClosest = newDist;
+                }
+            }
+            else
+            {
+                closest = enemy.transform;
+                distToClosest = Vector3.Distance(enemy.transform.position, transform.position);
+            }
+        }
         return closest;
     }
 
@@ -112,6 +139,13 @@ public class SwarmCenter : MonoBehaviour
     IEnumerator Shoot()
     {
         //TODO damage enemy
+        Health enemyHealth = closestEnemy.GetComponent<Health>();
+        SwarmMovement allyScript;
+        foreach(Collider ally in allies)
+        {
+            allyScript = ally.GetComponent<SwarmMovement>();
+            enemyHealth.TakeDamage(allyScript.damage);
+        }
         //TODO play animation when shooting = true
 
         yield return new WaitForSeconds(attackSpeed);

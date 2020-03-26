@@ -6,18 +6,20 @@ public class Sniper : MonoBehaviour
 {
     enum State
     {
-        Roaming,
-        Shooting,
-        Charging
+        Roaming = 0,
+        Shooting = 1,
+        Charging = 2
     }
 
     public Transform swarmLocation;
+
     public float range;
     public float health;
     public float chargeSpeedWhileFiring;
     public float fireRate; // time between charging beam and firing
-    public float reloadTime; 
+    public float reloadTime;
     float currentCharge;
+    Animator anim;
 
     State sniperState;
 
@@ -25,10 +27,12 @@ public class Sniper : MonoBehaviour
     {
         sniperState = State.Roaming;
         currentCharge = 0f;
+        anim = GetComponent<Animator>();
     }
 
     void Update()
     {
+        anim.SetInteger("SniperState", (int)sniperState);
         if (reloadTime > currentCharge && sniperState != State.Shooting)
         {
             currentCharge += Time.deltaTime;
@@ -54,7 +58,7 @@ public class Sniper : MonoBehaviour
     void Roam()
     {
         print("roaming");
-        //TODO create AI that patrols between points   
+        //TODO create AI that patrols between points  
     }
 
     void Flee()
@@ -67,6 +71,7 @@ public class Sniper : MonoBehaviour
     {
         print("Sniper Shooting");
         //TODO raycast to center of swarm
+        //TODO face towards swarm
         yield return new WaitForSeconds(chargeSpeedWhileFiring);
         //TODO freeze raycast
         yield return new WaitForSeconds(fireRate);

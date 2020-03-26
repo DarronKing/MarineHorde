@@ -8,6 +8,7 @@ public class SwarmMovement : MonoBehaviour
     public Transform lookAt;
     public float attackRange;
     public float attackSpeed;
+    public int damage = 1;
     public GameObject bulletPrefab;
 
     Transform target;
@@ -25,32 +26,11 @@ public class SwarmMovement : MonoBehaviour
     void Update()
     {
         agent.SetDestination(target.position);
-
-        
-        //if (Vector3.Distance(transform.position, lookAt.position) < attackRange)
-        //{
-        //    gameObject.transform.LookAt(lookAt);
-        //    if (!shooting)
-        //    {
-        //        shooting = true;
-        //        StartCoroutine("Shoot");
-        //    }
-                
-        //}
-           
     }
 
-    //IEnumerator Shoot()
-    //{
-        
-    //    //TODO fire bullet
-    //    GameObject bulletHandler;
-    //    bulletHandler = Instantiate(bulletPrefab, bulletEmitter.position, bulletEmitter.rotation) as GameObject;
-
-    //    yield return new WaitForSeconds(attackSpeed);
-    //    //bulletHandler.transform.Rotate(Vector3.left * 90);
-    //    shooting = false;
-
-    //}
-
+    public void Shoot(Health enemy)
+    {
+        //TODO muzzle flash
+        enemy.TakeDamage(damage);
+    }
 }
