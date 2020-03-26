@@ -52,7 +52,7 @@ public class SwarmCenter : MonoBehaviour
         CalculateCenter();
         closestEnemy = ClosestEnemy();
          
-        if (Vector3.Distance(transform.position, closestEnemy.position) < attackRange)
+        if (Vector3.Distance(transform.position, closestEnemy.position) <= attackRange)
         {
             foreach (GameObject child in children)
             {
@@ -68,19 +68,15 @@ public class SwarmCenter : MonoBehaviour
         {
             anim.SetBool("Running", shooting);
         }
-        print(enemies.Count + "enemies");
     }
 
     void OnTriggerStay(Collider other)
     {
-        // not working
-        print("called");
         enemies.Add(other);
     }
 
     void OnTriggerExit(Collider other)
     {
-        print("exit");
         enemies.Remove(other);
     }
 
@@ -117,7 +113,6 @@ public class SwarmCenter : MonoBehaviour
     {
         //TODO damage enemy
         //TODO play animation when shooting = true
-        print("shooting");
 
         yield return new WaitForSeconds(attackSpeed);
         shooting = false;
