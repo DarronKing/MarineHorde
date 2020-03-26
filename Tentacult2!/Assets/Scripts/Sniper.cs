@@ -15,8 +15,8 @@ public class Sniper : MonoBehaviour
     public float range;
     public float health;
     public float chargeSpeedWhileFiring;
-    public float fireRate;
-    public float chargeSpeedAfterFire;
+    public float fireRate; // time between charging beam and firing
+    public float reloadTime; 
     float currentCharge;
 
     State sniperState;
@@ -29,13 +29,17 @@ public class Sniper : MonoBehaviour
 
     void Update()
     {
-        if (chargeSpeedAfterFire > currentCharge && sniperState != State.Shooting)
+        if (reloadTime > currentCharge && sniperState != State.Shooting)
         {
             currentCharge += Time.deltaTime;
             sniperState = State.Charging;
+            Flee();
         }
-        else
+        else if (sniperState != State.Shooting)
+        {
             sniperState = State.Roaming;
+            Roam();
+        }
 
         if ((Vector3.Distance(swarmLocation.position, transform.position) <= range) && sniperState == State.Roaming)
         {
@@ -45,6 +49,18 @@ public class Sniper : MonoBehaviour
         }
 
         print("Sniper State: " + sniperState);
+    }
+
+    void Roam()
+    {
+        print("roaming");
+        //TODO create AI that patrols between points   
+    }
+
+    void Flee()
+    {
+        print("running");
+        //TODO create AI that runs to max distance from player
     }
 
     IEnumerator Shoot()
