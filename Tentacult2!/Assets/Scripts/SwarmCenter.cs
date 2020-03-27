@@ -39,7 +39,7 @@ public class SwarmCenter : MonoBehaviour
 
         // remove the following code 
         number = (int)children.Length / 4;//
-        circle.xradius = circle.yradius = 9 + number;//
+        circle.xradius = circle.yradius = 10 + number;//
         sphere.radius = attackRange = 10 + number;//
         circle.CreatePoints();//
     }

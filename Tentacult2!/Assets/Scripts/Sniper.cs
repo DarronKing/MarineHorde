@@ -57,21 +57,18 @@ public class Sniper : MonoBehaviour
 
     void Roam()
     {
-        print("roaming");
         //TODO create AI that patrols between points  
     }
 
     void Flee()
     {
-        print("running");
         //TODO create AI that runs to max distance from player
     }
 
     IEnumerator Shoot()
     {
-        print("Sniper Shooting");
         //TODO raycast to center of swarm
-        //TODO face towards swarm
+        transform.LookAt(swarmLocation);
         yield return new WaitForSeconds(chargeSpeedWhileFiring);
         //TODO freeze raycast
         yield return new WaitForSeconds(fireRate);
